@@ -7,6 +7,8 @@ fetch(url)
 })
 .then(function(value) {
   console.log(value);
+  nom.textContent = `string text ${products.name} string text`;
+
   // appeler array
 })
 .catch(function(err) {
@@ -23,6 +25,7 @@ console.log(containerItems);
 let divItems = document.getElementById('items').innerHTML = "<div id='divItems' class='divItems'></div>"
 console.log(divItems);
 
+// elements image titre et description
 const img = document.createElement("img");
 containerItems.appendChild(img);
 img.className = 'items article img';
@@ -31,6 +34,7 @@ const nom = document.createElement("h2");
 containerItems.appendChild(nom);
 nom.className = 'items article h3';
 
+
 const description = document.createElement("p");
 containerItems.appendChild(description);
 nom.className = 'items article p';
@@ -38,8 +42,6 @@ nom.className = 'items article p';
 
 console.log(nom);
 console.log(img);
-console.log(description);
-
 
 
 
