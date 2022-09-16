@@ -25,12 +25,15 @@ console.log(divItems);
 
 const img = document.createElement("img");
 containerItems.appendChild(img);
+img.className = 'items article img';
 
 const nom = document.createElement("h2");
-containerItems.appendChild(nom); 
+containerItems.appendChild(nom);
+nom.className = 'items article h3';
 
 const description = document.createElement("p");
 containerItems.appendChild(description);
+nom.className = 'items article p';
 
 
 console.log(nom);
