@@ -13,7 +13,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
   }
 })
 .then(function(data) {
-  //console.log(data);
+  console.log(data);
 
   document.getElementsByClassName("item__img")[0].innerHTML =
   `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
@@ -33,7 +33,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
   }
 
   let dataColor
-
   let qtyColor = document.getElementById('colors')
   console.log(qtyColor);
   qtyColor.addEventListener('input',(e) => {
@@ -43,7 +42,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
   })
 
   let dataNmb
-
   let qtyNumber = document.querySelector(`input[type=number]`)
   console.log(qtyNumber);
   qtyNumber.addEventListener('input',(e) => {
@@ -55,9 +53,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
   console.log(subButton);
   subButton.addEventListener('click',(e) => {
     console.log(e.target.value);
-    //window.location.href ="./cart.html"
-    localStorage.setItem('dataNmb', dataNmb);
-    localStorage.setItem('dataColor', dataColor);
 
     if (dataNmb == undefined||
       dataNmb < 1||
@@ -68,11 +63,29 @@ fetch(`http://localhost:3000/api/products/${id}`)
       dataColor == null||
       dataColor == "" ) {
       alert("Veuillez sélectionner une couleur ou une quantité valide");
+    } else { 
+      window.location.href ="./cart.html"
     }
+
+    const userChoice = Object.assign({}, data, {
+      color: dataColor,
+      quantity : dataNmb,
+    })
+
+    console.log(userChoice);
+
+    let productStorage = JSON.parse(localStorage.getItem('product'))
+    console.log(productStorage);
+
+    if (productStorage == null) {
+      productStorage = []
+      productStorage.push(userChoice)
+      console.log(productStorage);
+      localStorage.setItem('product', JSON.stringify(productStorage));
+    }
+
   })
-
-
-
+  
 })
 .catch(function(err) {
   // Une erreur est survenue
