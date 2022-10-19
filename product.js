@@ -38,7 +38,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
   qtyColor.addEventListener('input',(e) => {
     dataColor = (e.target.value);
     console.log(dataColor);
-
   })
 
   let dataNmb
@@ -67,26 +66,31 @@ fetch(`http://localhost:3000/api/products/${id}`)
       window.location.href ="./cart.html"
     }
 
-    const userChoice = Object.assign({}, data, {
-      color: dataColor,
-      quantity : dataNmb,
-    })
+  let produits = {
+    idProduit: id,
+    qtyProduits:dataNmb,
+    colorProduits: dataColor,
+  }
+  console.log(produits);
 
-    console.log(userChoice);
+  let panier = JSON.parse(localStorage.getItem("product"))
 
-    let productStorage = JSON.parse(localStorage.getItem('product'))
-    console.log(productStorage);
-
-    if (productStorage == null) {
-      productStorage = []
-      productStorage.push(userChoice)
-      console.log(productStorage);
-      localStorage.setItem('product', JSON.stringify(productStorage));
-    }
-
+  if (panier) {
+    panier.push(produits)
+    localStorage.setItem("product", JSON.stringify(panier)); 
+    console.log(panier);
+  } else {
+    panier = []
+    panier.push(produits)
+    localStorage.setItem("product", JSON.stringify(panier)); 
+  }
+  console.log(panier); 
   })
   
 })
 .catch(function(err) {
   // Une erreur est survenue
 })
+
+let paniers = JSON.parse(localStorage.getItem("product"));
+console.log(paniers);
