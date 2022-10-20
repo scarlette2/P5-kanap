@@ -3,16 +3,6 @@
   let panier = JSON.parse(localStorage.getItem("product"))
   console.log(panier);
 
-  ti = []
-  ti = panier[0]
-  console.log(ti);
-
-  let qtyPanier = 0
-  let pricePanier = 0
-
-  function totalPrice(params) {
-    pricePanier 
-  }
 
   for (let i = 0; i < panier.length; i++){
     let produits = panier[i];
@@ -24,7 +14,8 @@
       }
     })
     .then(function(data) {
-      cart__items.innerHTML += `<article class="cart__item" data-id="${produits.idProduit}" data-color="${produits.colorProduits}">
+
+      cart__items.innerHTML += `<article class="cart__item" data-id="" data-color="">
       <div class="cart__item__img">
         <img src="${data.imageUrl}" alt="${data.altTxt}">
       </div>
@@ -46,8 +37,20 @@
       </div>
       </article>`; 
 
-      console.log(data);
-   
+      //console.log(data);
+
+      let deleteBtns = document.getElementsByClassName("deleteItem")
+      console.log(deleteBtns)
+      for (let i = 0; i < deleteBtns.length; i++){
+        let btn = deleteBtns[i];
+        console.log(btn);
+        btn.addEventListener('click',(e) => {
+          console.log(e.target.value); 
+          localStorage.removeItem('product');
+        })
+      }
+
+
     })
     .catch(function(err) {
       // Une erreur est survenue
