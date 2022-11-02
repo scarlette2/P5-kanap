@@ -1,4 +1,4 @@
-let panier = [dataColor,dataNmb, id]
+/*let panier = [dataColor,dataNmb, id]
 console.log(panier);
 let stock = JSON.parse(localStorage.getItem("product"))
 
@@ -63,7 +63,14 @@ cart__items.innerHTML += `<article class="cart__item" data-id="${produits.idProd
 
 
 
+         // localStorage.removeItem('product');
+        // let deleteId = panier[i].idProduit
+         //console.log(deleteId);
 
+         //panier = panier.filter(ei => ei.idProduit !== deleteId)
+         //console.log(panier);
+
+         //localStorage.setItem("product", JSON.stringify(deleteId));
 
 
 

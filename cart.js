@@ -1,19 +1,20 @@
 
-  
-  let panier = JSON.parse(localStorage.getItem("product"))
-  console.log(panier);
+let panier = JSON.parse(localStorage.getItem("product"))
+console.log(panier);
+let someProduct = []
 
+for (let i = 0; i < panier.length; i++) {
+  let produits = panier[i];
 
-  for (let i = 0; i < panier.length; i++){
-    let produits = panier[i];
-
-    fetch((`http://localhost:3000/api/products/${produits.idProduit}`))
-    .then(function(res) {
+  fetch((`http://localhost:3000/api/products/${produits.idProduit}`))
+    .then(function (res) {
       if (res.ok) {
         return res.json();
       }
     })
-    .then(function(data) {
+    .then(function (data) {
+
+    produits.qtyProduits = parseInt(produits.qtyProduits)
 
       cart__items.innerHTML += `<article class="cart__item" data-id="" data-color="">
       <div class="cart__item__img">
@@ -31,29 +32,45 @@
             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${produits.qtyProduits} ">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p class="deleteItem">Supprimer</p>
+            <p class="deleteItem" data-id="${produits.idProduit}" data-color="${produits.colorProduits}">Supprimer</p>
           </div>
         </div>
       </div>
-      </article>`; 
+      </article>`;
 
       //console.log(data);
 
+
       let deleteBtns = document.getElementsByClassName("deleteItem")
-      console.log(deleteBtns)
-      for (let i = 0; i < deleteBtns.length; i++){
+      //console.log(deleteBtns)
+      for (let i = 0; i < deleteBtns.length; i++) {
         let btn = deleteBtns[i];
-        console.log(btn);
-        btn.addEventListener('click',(e) => {
-          console.log(e.target.value); 
-          localStorage.removeItem('product');
+        //console.log(btn);
+        btn.addEventListener('click', (event) => {
+
+          let idProduct = btn.dataset.id
+          let colorProduct = btn.dataset.color
+
+          for (let i = 0; i < panier.length; i++) {
+            let produiPanier = panier[i];
+            console.log(produiPanier);
+
+            if (produiPanier.idProduit == idProduct && produiPanier.colorProduits == colorProduct) {
+              console.log(panier);
+              panier.splice(i,1)
+              console.log(panier);
+              localStorage.setItem("product", JSON.stringify(panier));
+              window.location.reload();
+            }
+          }
         })
+
       }
 
-
     })
-    .catch(function(err) {
+    .catch(function (err) {
       // Une erreur est survenue
     });
-  }
+}
+
 
