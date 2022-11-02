@@ -5,6 +5,7 @@ let someProduct = []
 
 for (let i = 0; i < panier.length; i++) {
   let produits = panier[i];
+  console.log(produits.qtyProduits);
 
   fetch((`http://localhost:3000/api/products/${produits.idProduit}`))
     .then(function (res) {
@@ -14,7 +15,9 @@ for (let i = 0; i < panier.length; i++) {
     })
     .then(function (data) {
 
-    produits.qtyProduits = parseInt(produits.qtyProduits)
+    //produits.qtyProduits = parseInt(produits.qtyProduits)
+    console.log(produits.qtyProduits);
+
 
       cart__items.innerHTML += `<article class="cart__item" data-id="" data-color="">
       <div class="cart__item__img">
