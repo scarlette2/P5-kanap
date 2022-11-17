@@ -1,6 +1,3 @@
-
-const url = "http://localhost:3000/api/products";
-
 //recuperer id depuis URL
 let produit = new URL(document.location).searchParams
 let id = produit.get("id")
@@ -13,8 +10,8 @@ fetch(`http://localhost:3000/api/products/${id}`)
     }
   })
   .then(function (data) {
-    console.log(data);
 
+    // recupérer les élément html et insérer jes éléments de l'API correspondant 
     document.getElementsByClassName("item__img")[0].innerHTML =
       `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
 
@@ -27,32 +24,31 @@ fetch(`http://localhost:3000/api/products/${id}`)
     let description = document.getElementById("description");
     description.innerHTML = data.description
 
+    // faire une boucle for du tableau des couleurs  et y injecter les valeurs de l'API    
     let colors = document.getElementById("colors");
     for (i = 0; i < data.colors.length; i++) {
       colors.innerHTML += `<option value="${data.colors[i]}">${data.colors[i]}</option>`;
     }
 
+    //mettre un évènement au click pour récuperer le choix de la couleur
     let dataColor
     let qtyColor = document.getElementById('colors')
-    console.log(qtyColor);
     qtyColor.addEventListener('input', (e) => {
       dataColor = (e.target.value);
-      console.log(dataColor);
     })
 
+    //mettre un évènement au click pour récuperer le choix de la quantité
     let dataNmb
     let qtyNumber = document.querySelector(`input[type=number]`)
-    console.log(qtyNumber);
     qtyNumber.addEventListener('input', (e) => {
       dataNmb = (e.target.value);
-      console.log(dataNmb);
     })
 
+    //mettre un évènement au click sur le bouton pour envoyer le choix de l'utilisateur au panier et enregister dans le localstorage
     let subButton = document.getElementById("addToCart")
-    console.log(subButton);
     subButton.addEventListener('click', (e) => {
-      console.log(e.target.value);
 
+      // conditions sur la quantité et si tout est ok renvoi vers la page panier
       if (dataNmb == undefined ||
         dataNmb < 1 ||
         dataNmb > 100 ||
@@ -64,33 +60,34 @@ fetch(`http://localhost:3000/api/products/${id}`)
         alert("Veuillez sélectionner une couleur ou une quantité valide");
       } else {
         window.location.href = "./cart.html"
-      }
 
-      let produits = {
-        idProduits: id,
-        qtyProduits: dataNmb,
-        colorProduits: dataColor,
-      }
-      console.log(produits);
+        // créer un objet qui sera envoyé dans le localstirage
+        let produits = {
+          idProduits: id,
+          qtyProduits: dataNmb,
+          colorProduits: dataColor,
+        }
+        console.log(produits);
 
-      let panier = JSON.parse(localStorage.getItem("product"))
+        // faire en sorte que la variable panier parse les données de produit qui seront envoyés
+        let panier = JSON.parse(localStorage.getItem("product"))
 
-      if (panier) {
-        panier.push(produits)
-        localStorage.setItem("product", JSON.stringify(panier));
-        console.log(panier);
-      } else {
-        panier = []
-        panier.push(produits)
-        localStorage.setItem("product", JSON.stringify(panier));
+        //condition ou panier doit envoyer l'objet produit dans le localstorage
+        // créer la clef "product" et y mettre les données de panier sous format JSON
+        if (panier) {
+          panier.push(produits)
+          localStorage.setItem("product", JSON.stringify(panier));
+
+          // instenser panier en tableau et push l´objet dans panier donc se sera un tableau d'objet
+        } else {
+          panier = []
+          panier.push(produits)
+          localStorage.setItem("product", JSON.stringify(panier));
+        }
       }
-      console.log(panier);
     })
 
   })
   .catch(function (err) {
     // Une erreur est survenue
   })
-
-let paniers = JSON.parse(localStorage.getItem("product"));
-console.log(paniers);
